@@ -1,68 +1,90 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Burger Builder (React Project)
 
-## Available Scripts
+## What
 
-In the project directory, you can run:
+This project is part of a React course that can be found on Udemy. This README file contains step by step notes on how the project progressed.
 
-### `npm start`
+## How
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 1: Planning the component tree
+![Initial Tree Component](./images/1-ComponentTreeInitial.png)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `npm test`
+### 2: Planning the state
+![Initial overview of state and location within component tree](./images/2-StateInitial.png)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### 3: Setting up the project
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### 3a: Creating the project with `create-react-app`
+`npx create-react-app burger-builder-react` (newest way of creating a react app with 'create-react-app')
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+#### 3b: Cleaning up the project code a little
+* 'App.css' deleted since that file is not needed
+* 'App.js' stripped of unnecessary code
+    ![Screenshot of 'App.js' file after clean up](./images/3-AppAfterCleanUp.png)
+* 'Open Sans' font embedded into 'index.html' file, right above title (which is also changed)   
+* 'index.css' font-family changed to 'Open Sans'
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### 4: Creating the Lay-out component
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* New folders inside 'src' folder: components, containers
+    -> components are stateless components (a.k.a fumb or presentational components)
+    -> containers are stateful components (a.k.a. smart or functional components), 
+        -> containers can be either class-based components using state or functional components using the 'useState' hook
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* New folder inside 'components' folder: Layout
+    -> New file inside the folder: Layout.js
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+*  Another new folder inside the 'src' folder: assets 
+    -> will later be used for assets such as a logo
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+* Lay-out component initial code:
+    -> import React
+    -> create a functional component, called layout
+        -> pass props as a parameter inside the arrow function
+        -> inside the function body, there are 2 main elements:
+            1. a div wrapping the future Toolbar, SideDrawer and Backdrop code
+            2. a main element that returns the code it will be wrapped around (by using props.children)
+        -> since there can't be adjacent JSX elements without a wrapper component, one must be created
 
-## Learn More
+* New folder inside the 'src' folder: hoc
+    -> New file created inside 'hoc' folder: Aux.js
+        -> holds a functional component that only returns 'prop.children' and a default export only
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* Finishing touches on 'Layout.js':
+    -> import the new Aux wrapper component
+    -> wrap the div and main element inside the Aux component
+    -> export default layout
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* Import new Layout component into 'App.js'
+    -> add Layout component inside of the root div tags
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### 4: Creating the BurgerBuilder container: Pt. 1
 
-### Analyzing the Bundle Size
+* New folder inside 'containers' folder: BurgerBuilder
+    -> New file inside 'BurgerBuilder' container: BurgerBuilder.js
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+* BurgerBuilder.js initial code:
+    -> BurgerBuilder will be a class-based component, so state can be used without 'useState'
+    -> React must be imported, with the named import 'Component'
+    -> inside the class, the lifecycle 'render()' method must be used
+        -> inside that render, JSX is returned
+            -> there are 2 main JSX elements:
+                1. a div wrapping the burger code
+                2. a div wrapping the build controls code
+            -> 'Aux' hoc is imported & then used to wrap both divs
 
-### Making a Progressive Web App
+* Implementation of BurgerBuilder component inside 'App.js':
+    -> component, as always must be imported
+    -> the previously written test code is replaced by the new component (self-closing tag)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+* Adding initial styling to placeholder elements:
+    -> Inside the 'Layout.js' file, styling should be added to the main element:
+        -> A new file is created inside the 'Layout' folder: Layout.module.css 
+            -> a new class is created & a margin-top is added as a styling rule
+        -> the css file is imported into the 'Layout.js' file using 'import classes'
+            -> the className created in the css file is then added to the main element, using '{classes.Class}' syntax
 
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
