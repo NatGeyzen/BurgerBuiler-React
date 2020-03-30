@@ -8,9 +8,9 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import axios from '../../axios-orders';
-import * as actionTypes from '../../store/actions';
 
+import * as burgerBuilderActions from '../../store/actions/index';
+import axios from '../../axios-orders';
 
 class BurgerBuilder extends Component {
 
@@ -21,8 +21,7 @@ class BurgerBuilder extends Component {
     state = {
         purchaseable: false,
         purchaseMode: false,
-        loading: false,
-        error: false
+        loading: false
     }
 
     // alternative syntax for state 
@@ -31,16 +30,9 @@ class BurgerBuilder extends Component {
     //     this.state = {...}
     // }
 
-    // componentDidMount () {
-    //     console.log(this.props);
-    //     axios.get('https://react-my-burger-e9525.firebaseio.com/ingredients.json')
-    //         .then(response => {
-    //             this.setState({ingredients: response.data})
-    //         })
-    //         .catch(error => {
-    //             this.setState({error: true})
-    //         });
-    // }
+    componentDidMount () {
+        this.props.onInitIngredients();
+    }
 
     /* ------------------------------
         METHODS
@@ -86,7 +78,7 @@ class BurgerBuilder extends Component {
         }
 
         let orderSummary = null;
-        let burger = this.state.error ? <p>Ingredients can't be loaded!</p> : <Spinner />;
+        let burger = this.props.error ? <p>Ingredients can't be loaded!</p> : <Spinner />;
 
         if (this.props.ings) {
             burger = (
@@ -107,10 +99,6 @@ class BurgerBuilder extends Component {
                 purchaseCancelled={this.purchaseCancelHandler}
                 purchaseContinued={this.purchaseContinueHandler} />
         }
-
-        if (this.state.loading) {
-            orderSummary = <Spinner />;
-        }
         
         return (
             <Aux>
@@ -126,14 +114,16 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
     return {
         ings: state.ingredients,
-        price: state.totalPrice
+        price: state.totalPrice,
+        error: state.error
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIngredientAdd: (ingName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
-        onIngredientRemove: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName})
+        onIngredientAdd: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
+        onIngredientRemove: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients())
     }
 }
 
