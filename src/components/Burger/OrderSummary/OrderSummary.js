@@ -5,9 +5,9 @@ import Button from '../../UI/Button/Button';
 class OrderSummary extends Component {
 
     // This could be a functional component
-    componentWillUpdate() {
-        console.log('[OrderSummary] will update');
-    }
+    // UNSAFE_componentWillUpdate() {
+    //     console.log('[OrderSummary] will update');
+    // }
 
     render() {
 

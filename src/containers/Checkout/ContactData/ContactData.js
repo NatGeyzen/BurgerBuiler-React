@@ -129,7 +129,7 @@ class ContactData extends Component {
         })
 
         updatedOrderForm[inputIdentifier] = updatedFormElement;
-        console.log(updatedFormElement);
+        // console.log(updatedFormElement);
         this.setState({orderForm: updatedOrderForm});
     }
 

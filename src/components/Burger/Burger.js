@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 const burger = (props) => {
 
-    console.log(props);
+    // console.log(props);
 
     let transformedIngredients = Object.keys( props.ingredients )
         .map( ingKey => {
