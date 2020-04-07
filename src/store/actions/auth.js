@@ -8,6 +8,7 @@ export const authStart = () => {
 };
 
 export const authSuccess = (token, userId) => {
+    console.log('[authSucces] dispatched BY [authCheckState]');
     return {
         type: actionTypes.AUTH_SUCCESS,
         idToken: token,
@@ -78,15 +79,21 @@ export const authCheckState = () => {
     return dispatch => {
       const token = localStorage.getItem('token');
       if (!token) {
-        dispatch(logout());
-      } else {
+        console.log('[logout] dispatched IN [authCheckState] because no token was found.');
+        dispatch(logout());  
+      } 
+      else {
         const expirationDate = new Date(localStorage.getItem('expirationDate'));
         if (expirationDate <= new Date()) {
             dispatch(logout());
-        } else {
+            console.log('[logout] dispatched IN [authCheckState] because token time expired.')
+        } 
+        else {
             const userId = localStorage.getItem('userId');
             dispatch(authSuccess(token, userId));
-            dispatch(checkAuthTimeout(expirationDate.getSeconds() - new Date().getSeconds()));
+            console.log('[authSucces] dispatched IN [authCheckState]');
+            // dispatch(checkAuthTimeout(expirationDate.getSeconds() - new Date().getSeconds()));
+            // console.log('[checkAuthTimeout] dispatched IN [authCheckOut]');
         }
       }
     }
